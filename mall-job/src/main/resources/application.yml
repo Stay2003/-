@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: mall-job
+  datasource:
+    url: jdbc:mysql://localhost:3306/susan_mall?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
+
+server:
+  port: 8012

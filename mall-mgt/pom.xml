@@ -2,20 +2,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cn.net.susan</groupId>
         <artifactId>susan-mall</artifactId>
+        <groupId>cn.net.susan</groupId>
         <version>1.0.0</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.siyuan</groupId>
     <artifactId>mall-mgt</artifactId>
+    <name>mall-mgt</name>
+    <description>商城后台管理系统</description>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jjwt.version>0.10.6</jjwt.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.net.susan</groupId>
+            <artifactId>mall-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.net.susan</groupId>
+            <artifactId>mall-business</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 </project>

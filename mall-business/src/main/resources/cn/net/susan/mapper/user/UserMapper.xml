@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.user.UserMapper">
+
+    <resultMap type="cn.net.susan.entity.user.UserEntity"
+               id="userResult">
+        <result property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="updateUserName" column="update_user_name"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectUserColumn">
+          id
+         , user_name
+         , create_user_id
+         , create_user_name
+         , create_time
+         , update_user_id
+         , update_user_name
+         , update_time
+         , is_del
+     </sql>
+
+    <sql id="queryWhere">
+        <where>
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+            <if test="userName != null and userName !=''">
+                AND user_name = #{userName}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="userResult">
+        SELECT
+        <include refid="selectUserColumn"/>
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.user.UserConditionEntity"
+            resultMap="userResult">
+        SELECT
+        <include refid="selectUserColumn"/>
+        FROM user
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.user.UserConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM user
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.user.UserEntity">
+        UPDATE user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="createUserName != null and createUserName != ''">
+                create_user_name = #{createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=BIGINT},
+            </if>
+            <if test="updateUserName != null and updateUserName != ''">
+                update_user_name = #{updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=INTEGER},
+            </if>
+            update_time=now(3)
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE user
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.user.UserEntity">
+        INSERT INTO user
+        (
+        id
+        , user_name
+        , create_user_id
+        , create_user_name
+        , create_time
+        , update_user_id
+        , update_user_name
+        , update_time
+        )
+        VALUES
+            (
+            #{id,jdbcType=BIGINT},
+            #{userName,jdbcType=VARCHAR},
+            #{createUserId,jdbcType=BIGINT},
+            #{createUserName,jdbcType=VARCHAR},
+            now(3),
+            #{updateUserId,jdbcType=BIGINT},
+            #{updateUserName,jdbcType=VARCHAR},
+            now(3)
+            )
+    </insert>
+</mapper>
