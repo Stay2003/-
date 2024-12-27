@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.sys.UserMapper">
+
+    <resultMap type="cn.net.susan.entity.sys.UserEntity" id="UserResult">
+        <result property="id" column="id"/>
+        <result property="avatarId" column="avatar_id"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="userName" column="user_name"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="phone" column="phone"/>
+        <result property="jobId" column="job_id"/>
+        <result property="lastChangePasswordTime" column="last_change_password_time"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="sex" column="sex"/>
+        <result property="validStatus" column="valid_status"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="updateUserName" column="update_user_name"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectUserColumn">
+         id,
+         avatar_id,
+         email,
+         password,
+         user_name,
+         dept_id,
+         phone,
+         job_id,
+         last_change_password_time,
+         nick_name,
+         sex,
+         valid_status,
+         create_user_id,
+         create_user_name,
+         create_time,
+         update_user_id,
+         update_user_name,
+         update_time,
+         is_del
+    </sql>
+
+    <sql id="queryWhere">
+        <where>
+
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+
+            <if test="avatarId != null ">
+                AND avatar_id = #{avatarId}
+            </if>
+
+            <if test="email != null  and email != ''">
+                AND email = #{email}
+            </if>
+
+            <if test="password != null  and password != ''">
+                AND password = #{password}
+            </if>
+
+            <if test="userName != null  and userName != ''">
+                AND user_name = #{userName}
+            </if>
+
+            <if test="deptId != null ">
+                AND dept_id = #{deptId}
+            </if>
+
+            <if test="phone != null  and phone != ''">
+                AND phone = #{phone}
+            </if>
+
+            <if test="jobId != null ">
+                AND job_id = #{jobId}
+            </if>
+
+            <if test="lastChangePasswordTime != null ">
+                AND last_change_password_time = #{lastChangePasswordTime}
+            </if>
+
+            <if test="nickName != null  and nickName != ''">
+                AND nick_name = #{nickName}
+            </if>
+
+            <if test="sex != null ">
+                AND sex = #{sex}
+            </if>
+
+            <if test="validStatus != null ">
+                AND valid_status = #{validStatus}
+            </if>
+
+            <if test="createUserId != null ">
+                AND create_user_id = #{createUserId}
+            </if>
+
+            <if test="createUserName != null  and createUserName != ''">
+                AND create_user_name = #{createUserName}
+            </if>
+
+            <if test="createTime != null ">
+                AND create_time = #{createTime}
+            </if>
+
+            <if test="updateUserId != null ">
+                AND update_user_id = #{updateUserId}
+            </if>
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                AND update_user_name = #{updateUserName}
+            </if>
+
+            <if test="updateTime != null ">
+                AND update_time = #{updateTime}
+            </if>
+
+            <if test="isDel != null ">
+                AND is_del = #{isDel}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="UserResult">
+        SELECT
+        <include refid="selectUserColumn"/>
+        FROM sys_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.sys.UserConditionEntity"
+            resultMap="UserResult">
+        SELECT
+        <include refid="selectUserColumn"/>
+        FROM sys_user
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.sys.UserConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM sys_user
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.sys.UserEntity">
+        UPDATE sys_user
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="avatarId != null ">
+                avatar_id = #{avatarId},
+            </if>
+
+
+            <if test="email != null  and email != ''">
+                email = #{email},
+            </if>
+
+
+            <if test="password != null  and password != ''">
+                password = #{password},
+            </if>
+
+
+            <if test="userName != null  and userName != ''">
+                user_name = #{userName},
+            </if>
+
+
+            <if test="deptId != null ">
+                dept_id = #{deptId},
+            </if>
+
+
+            <if test="phone != null  and phone != ''">
+                phone = #{phone},
+            </if>
+
+
+            <if test="jobId != null ">
+                job_id = #{jobId},
+            </if>
+
+
+            <if test="lastChangePasswordTime != null ">
+                last_change_password_time = #{lastChangePasswordTime},
+            </if>
+
+
+            <if test="nickName != null  and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+
+
+            <if test="sex != null ">
+                sex = #{sex},
+            </if>
+
+
+            <if test="validStatus != null ">
+                valid_status = #{validStatus},
+            </if>
+
+
+            <if test="createUserId != null ">
+                create_user_id = #{createUserId},
+            </if>
+
+
+            <if test="createUserName != null  and createUserName != ''">
+                create_user_name = #{createUserName},
+            </if>
+
+
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+
+
+            <if test="updateUserId != null ">
+                update_user_id = #{updateUserId},
+            </if>
+
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                update_user_name = #{updateUserName},
+            </if>
+
+
+            <if test="updateTime != null ">
+                update_time = #{updateTime},
+            </if>
+
+
+            <if test="isDel != null ">
+                is_del = #{isDel},
+            </if>
+
+            update_time=now(3)
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE sys_user
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.sys.UserEntity">
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="avatarId != null ">
+                avatar_id,
+            </if>
+
+
+            <if test="email != null  and email != ''">
+                email,
+            </if>
+
+
+            <if test="password != null  and password != ''">
+                password,
+            </if>
+
+
+            <if test="userName != null  and userName != ''">
+                user_name,
+            </if>
+
+
+            <if test="deptId != null ">
+                dept_id,
+            </if>
+
+
+            <if test="phone != null  and phone != ''">
+                phone,
+            </if>
+
+
+            <if test="jobId != null ">
+                job_id,
+            </if>
+
+
+            <if test="lastChangePasswordTime != null ">
+                last_change_password_time,
+            </if>
+
+
+            <if test="nickName != null  and nickName != ''">
+                nick_name,
+            </if>
+
+
+            <if test="sex != null ">
+                sex,
+            </if>
+
+
+            <if test="validStatus != null ">
+                valid_status,
+            </if>
+
+
+            <if test="createUserId != null ">
+                create_user_id,
+            </if>
+
+
+            <if test="createUserName != null  and createUserName != ''">
+                create_user_name,
+            </if>
+
+
+            <if test="createTime != null ">
+                create_time,
+            </if>
+
+
+            <if test="updateUserId != null ">
+                update_user_id,
+            </if>
+
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                update_user_name,
+            </if>
+
+
+            <if test="updateTime != null ">
+                update_time,
+            </if>
+
+
+            <if test="isDel != null ">
+                is_del,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="avatarId != null ">
+                #{avatarId},
+            </if>
+
+            <if test="email != null  and email != ''">
+                #{email},
+            </if>
+
+            <if test="password != null  and password != ''">
+                #{password},
+            </if>
+
+            <if test="userName != null  and userName != ''">
+                #{userName},
+            </if>
+
+            <if test="deptId != null ">
+                #{deptId},
+            </if>
+
+            <if test="phone != null  and phone != ''">
+                #{phone},
+            </if>
+
+            <if test="jobId != null ">
+                #{jobId},
+            </if>
+
+            <if test="lastChangePasswordTime != null ">
+                #{lastChangePasswordTime},
+            </if>
+
+            <if test="nickName != null  and nickName != ''">
+                #{nickName},
+            </if>
+
+            <if test="sex != null ">
+                #{sex},
+            </if>
+
+            <if test="validStatus != null ">
+                #{validStatus},
+            </if>
+
+            <if test="createUserId != null ">
+                #{createUserId},
+            </if>
+
+            <if test="createUserName != null  and createUserName != ''">
+                #{createUserName},
+            </if>
+
+            <if test="createTime != null ">
+                #{createTime},
+            </if>
+
+            <if test="updateUserId != null ">
+                #{updateUserId},
+            </if>
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                #{updateUserName},
+            </if>
+
+            <if test="updateTime != null ">
+                #{updateTime},
+            </if>
+
+            <if test="isDel != null ">
+                #{isDel},
+            </if>
+
+        </trim>
+    </insert>
+
+</mapper>

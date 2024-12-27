@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.sys.MenuMapper">
+
+    <resultMap type="cn.net.susan.entity.sys.MenuEntity" id="MenuResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="pid" column="pid"/>
+        <result property="sort" column="sort"/>
+        <result property="icon" column="icon"/>
+        <result property="path" column="path"/>
+        <result property="hidden" column="hidden"/>
+        <result property="isLink" column="is_link"/>
+        <result property="type" column="type"/>
+        <result property="permission" column="permission"/>
+        <result property="url" column="url"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="updateUserName" column="update_user_name"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectMenuColumn">
+         id,
+         name,
+         pid,
+         sort,
+         icon,
+         path,
+         hidden,
+         is_link,
+         type,
+         permission,
+         url,
+         create_user_id,
+         create_user_name,
+         create_time,
+         update_user_id,
+         update_user_name,
+         update_time,
+         is_del
+    </sql>
+
+    <sql id="queryWhere">
+        <where>
+
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+
+            <if test="name != null  and name != ''">
+                AND name = #{name}
+            </if>
+
+            <if test="pid != null ">
+                AND pid = #{pid}
+            </if>
+
+            <if test="sort != null ">
+                AND sort = #{sort}
+            </if>
+
+            <if test="icon != null  and icon != ''">
+                AND icon = #{icon}
+            </if>
+
+            <if test="path != null  and path != ''">
+                AND path = #{path}
+            </if>
+
+            <if test="hidden != null ">
+                AND hidden = #{hidden}
+            </if>
+
+            <if test="isLink != null ">
+                AND is_link = #{isLink}
+            </if>
+
+            <if test="type != null ">
+                AND type = #{type}
+            </if>
+
+            <if test="permission != null  and permission != ''">
+                AND permission = #{permission}
+            </if>
+
+            <if test="url != null  and url != ''">
+                AND url = #{url}
+            </if>
+
+            <if test="createUserId != null ">
+                AND create_user_id = #{createUserId}
+            </if>
+
+            <if test="createUserName != null  and createUserName != ''">
+                AND create_user_name = #{createUserName}
+            </if>
+
+            <if test="createTime != null ">
+                AND create_time = #{createTime}
+            </if>
+
+            <if test="updateUserId != null ">
+                AND update_user_id = #{updateUserId}
+            </if>
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                AND update_user_name = #{updateUserName}
+            </if>
+
+            <if test="updateTime != null ">
+                AND update_time = #{updateTime}
+            </if>
+
+            <if test="isDel != null ">
+                AND is_del = #{isDel}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="MenuResult">
+        SELECT
+        <include refid="selectMenuColumn"/>
+        FROM sys_menu
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.sys.MenuConditionEntity"
+            resultMap="MenuResult">
+        SELECT
+        <include refid="selectMenuColumn"/>
+        FROM sys_menu
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.sys.MenuConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM sys_menu
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.sys.MenuEntity">
+        UPDATE sys_menu
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="name != null  and name != ''">
+                name = #{name},
+            </if>
+
+
+            <if test="pid != null ">
+                pid = #{pid},
+            </if>
+
+
+            <if test="sort != null ">
+                sort = #{sort},
+            </if>
+
+
+            <if test="icon != null  and icon != ''">
+                icon = #{icon},
+            </if>
+
+
+            <if test="path != null  and path != ''">
+                path = #{path},
+            </if>
+
+
+            <if test="hidden != null ">
+                hidden = #{hidden},
+            </if>
+
+
+            <if test="isLink != null ">
+                is_link = #{isLink},
+            </if>
+
+
+            <if test="type != null ">
+                type = #{type},
+            </if>
+
+
+            <if test="permission != null  and permission != ''">
+                permission = #{permission},
+            </if>
+
+
+            <if test="url != null  and url != ''">
+                url = #{url},
+            </if>
+
+
+            <if test="createUserId != null ">
+                create_user_id = #{createUserId},
+            </if>
+
+
+            <if test="createUserName != null  and createUserName != ''">
+                create_user_name = #{createUserName},
+            </if>
+
+
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+
+
+            <if test="updateUserId != null ">
+                update_user_id = #{updateUserId},
+            </if>
+
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                update_user_name = #{updateUserName},
+            </if>
+
+
+            <if test="updateTime != null ">
+                update_time = #{updateTime},
+            </if>
+
+
+            <if test="isDel != null ">
+                is_del = #{isDel},
+            </if>
+
+            update_time=now(3)
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE sys_menu
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.sys.MenuEntity">
+        INSERT INTO sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="name != null  and name != ''">
+                name,
+            </if>
+
+
+            <if test="pid != null ">
+                pid,
+            </if>
+
+
+            <if test="sort != null ">
+                sort,
+            </if>
+
+
+            <if test="icon != null  and icon != ''">
+                icon,
+            </if>
+
+
+            <if test="path != null  and path != ''">
+                path,
+            </if>
+
+
+            <if test="hidden != null ">
+                hidden,
+            </if>
+
+
+            <if test="isLink != null ">
+                is_link,
+            </if>
+
+
+            <if test="type != null ">
+                type,
+            </if>
+
+
+            <if test="permission != null  and permission != ''">
+                permission,
+            </if>
+
+
+            <if test="url != null  and url != ''">
+                url,
+            </if>
+
+
+            <if test="createUserId != null ">
+                create_user_id,
+            </if>
+
+
+            <if test="createUserName != null  and createUserName != ''">
+                create_user_name,
+            </if>
+
+
+            <if test="createTime != null ">
+                create_time,
+            </if>
+
+
+            <if test="updateUserId != null ">
+                update_user_id,
+            </if>
+
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                update_user_name,
+            </if>
+
+
+            <if test="updateTime != null ">
+                update_time,
+            </if>
+
+
+            <if test="isDel != null ">
+                is_del,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">
+                #{name},
+            </if>
+
+            <if test="pid != null ">
+                #{pid},
+            </if>
+
+            <if test="sort != null ">
+                #{sort},
+            </if>
+
+            <if test="icon != null  and icon != ''">
+                #{icon},
+            </if>
+
+            <if test="path != null  and path != ''">
+                #{path},
+            </if>
+
+            <if test="hidden != null ">
+                #{hidden},
+            </if>
+
+            <if test="isLink != null ">
+                #{isLink},
+            </if>
+
+            <if test="type != null ">
+                #{type},
+            </if>
+
+            <if test="permission != null  and permission != ''">
+                #{permission},
+            </if>
+
+            <if test="url != null  and url != ''">
+                #{url},
+            </if>
+
+            <if test="createUserId != null ">
+                #{createUserId},
+            </if>
+
+            <if test="createUserName != null  and createUserName != ''">
+                #{createUserName},
+            </if>
+
+            <if test="createTime != null ">
+                #{createTime},
+            </if>
+
+            <if test="updateUserId != null ">
+                #{updateUserId},
+            </if>
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                #{updateUserName},
+            </if>
+
+            <if test="updateTime != null ">
+                #{updateTime},
+            </if>
+
+            <if test="isDel != null ">
+                #{isDel},
+            </if>
+
+        </trim>
+    </insert>
+
+</mapper>

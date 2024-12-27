@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.sys.UserAvatarMapper">
+
+    <resultMap type="cn.net.susan.entity.sys.UserAvatarEntity" id="UserAvatarResult">
+        <result property="id" column="id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="path" column="path"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUserName" column="create_user_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="updateUserName" column="update_user_name"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDel" column="is_del"/>
+    </resultMap>
+
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectUserAvatarColumn">
+         id,
+         file_name,
+         path,
+         file_size,
+         create_user_id,
+         create_user_name,
+         create_time,
+         update_user_id,
+         update_user_name,
+         update_time,
+         is_del
+    </sql>
+
+    <sql id="queryWhere">
+        <where>
+
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+
+            <if test="fileName != null  and fileName != ''">
+                AND file_name = #{fileName}
+            </if>
+
+            <if test="path != null  and path != ''">
+                AND path = #{path}
+            </if>
+
+            <if test="fileSize != null  and fileSize != ''">
+                AND file_size = #{fileSize}
+            </if>
+
+            <if test="createUserId != null ">
+                AND create_user_id = #{createUserId}
+            </if>
+
+            <if test="createUserName != null  and createUserName != ''">
+                AND create_user_name = #{createUserName}
+            </if>
+
+            <if test="createTime != null ">
+                AND create_time = #{createTime}
+            </if>
+
+            <if test="updateUserId != null ">
+                AND update_user_id = #{updateUserId}
+            </if>
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                AND update_user_name = #{updateUserName}
+            </if>
+
+            <if test="updateTime != null ">
+                AND update_time = #{updateTime}
+            </if>
+
+            <if test="isDel != null ">
+                AND is_del = #{isDel}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="UserAvatarResult">
+        SELECT
+        <include refid="selectUserAvatarColumn"/>
+        FROM sys_user_avatar
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.sys.UserAvatarConditionEntity"
+            resultMap="UserAvatarResult">
+        SELECT
+        <include refid="selectUserAvatarColumn"/>
+        FROM sys_user_avatar
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.sys.UserAvatarConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM sys_user_avatar
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.sys.UserAvatarEntity">
+        UPDATE sys_user_avatar
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="fileName != null  and fileName != ''">
+                file_name = #{fileName},
+            </if>
+
+
+            <if test="path != null  and path != ''">
+                path = #{path},
+            </if>
+
+
+            <if test="fileSize != null  and fileSize != ''">
+                file_size = #{fileSize},
+            </if>
+
+
+            <if test="createUserId != null ">
+                create_user_id = #{createUserId},
+            </if>
+
+
+            <if test="createUserName != null  and createUserName != ''">
+                create_user_name = #{createUserName},
+            </if>
+
+
+            <if test="createTime != null ">
+                create_time = #{createTime},
+            </if>
+
+
+            <if test="updateUserId != null ">
+                update_user_id = #{updateUserId},
+            </if>
+
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                update_user_name = #{updateUserName},
+            </if>
+
+
+            <if test="updateTime != null ">
+                update_time = #{updateTime},
+            </if>
+
+
+            <if test="isDel != null ">
+                is_del = #{isDel},
+            </if>
+
+            update_time=now(3)
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE sys_user_avatar
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.sys.UserAvatarEntity">
+        INSERT INTO sys_user_avatar
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="fileName != null  and fileName != ''">
+                file_name,
+            </if>
+
+
+            <if test="path != null  and path != ''">
+                path,
+            </if>
+
+
+            <if test="fileSize != null  and fileSize != ''">
+                file_size,
+            </if>
+
+
+            <if test="createUserId != null ">
+                create_user_id,
+            </if>
+
+
+            <if test="createUserName != null  and createUserName != ''">
+                create_user_name,
+            </if>
+
+
+            <if test="createTime != null ">
+                create_time,
+            </if>
+
+
+            <if test="updateUserId != null ">
+                update_user_id,
+            </if>
+
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                update_user_name,
+            </if>
+
+
+            <if test="updateTime != null ">
+                update_time,
+            </if>
+
+
+            <if test="isDel != null ">
+                is_del,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fileName != null  and fileName != ''">
+                #{fileName},
+            </if>
+
+            <if test="path != null  and path != ''">
+                #{path},
+            </if>
+
+            <if test="fileSize != null  and fileSize != ''">
+                #{fileSize},
+            </if>
+
+            <if test="createUserId != null ">
+                #{createUserId},
+            </if>
+
+            <if test="createUserName != null  and createUserName != ''">
+                #{createUserName},
+            </if>
+
+            <if test="createTime != null ">
+                #{createTime},
+            </if>
+
+            <if test="updateUserId != null ">
+                #{updateUserId},
+            </if>
+
+            <if test="updateUserName != null  and updateUserName != ''">
+                #{updateUserName},
+            </if>
+
+            <if test="updateTime != null ">
+                #{updateTime},
+            </if>
+
+            <if test="isDel != null ">
+                #{isDel},
+            </if>
+
+        </trim>
+    </insert>
+
+</mapper>

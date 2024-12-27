@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.sys.UserRoleMapper">
+
+    <resultMap type="cn.net.susan.entity.sys.UserRoleEntity" id="UserRoleResult">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectUserRoleColumn">
+         id,
+         user_id,
+         role_id
+    </sql>
+
+    <sql id="queryWhere">
+        <where>
+
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+
+            <if test="userId != null ">
+                AND user_id = #{userId}
+            </if>
+
+            <if test="roleId != null ">
+                AND role_id = #{roleId}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="UserRoleResult">
+        SELECT
+        <include refid="selectUserRoleColumn"/>
+        FROM sys_user_role
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.sys.UserRoleConditionEntity"
+            resultMap="UserRoleResult">
+        SELECT
+        <include refid="selectUserRoleColumn"/>
+        FROM sys_user_role
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.sys.UserRoleConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM sys_user_role
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.sys.UserRoleEntity">
+        UPDATE sys_user_role
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="userId != null ">
+                user_id = #{userId},
+            </if>
+
+
+            <if test="roleId != null ">
+                role_id = #{roleId},
+            </if>
+
+            update_time=now(3)
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE sys_user_role
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.sys.UserRoleEntity">
+        INSERT INTO sys_user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="userId != null ">
+                user_id,
+            </if>
+
+
+            <if test="roleId != null ">
+                role_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">
+                #{userId},
+            </if>
+
+            <if test="roleId != null ">
+                #{roleId},
+            </if>
+
+        </trim>
+    </insert>
+
+</mapper>

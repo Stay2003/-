@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.sys.RoleMenuMapper">
+
+    <resultMap type="cn.net.susan.entity.sys.RoleMenuEntity" id="RoleMenuResult">
+        <result property="id" column="id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="menuId" column="menu_id"/>
+    </resultMap>
+
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectRoleMenuColumn">
+         id,
+         role_id,
+         menu_id
+    </sql>
+
+    <sql id="queryWhere">
+        <where>
+
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+
+            <if test="roleId != null ">
+                AND role_id = #{roleId}
+            </if>
+
+            <if test="menuId != null ">
+                AND menu_id = #{menuId}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="RoleMenuResult">
+        SELECT
+        <include refid="selectRoleMenuColumn"/>
+        FROM sys_role_menu
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.sys.RoleMenuConditionEntity"
+            resultMap="RoleMenuResult">
+        SELECT
+        <include refid="selectRoleMenuColumn"/>
+        FROM sys_role_menu
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.sys.RoleMenuConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM sys_role_menu
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.sys.RoleMenuEntity">
+        UPDATE sys_role_menu
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="roleId != null ">
+                role_id = #{roleId},
+            </if>
+
+
+            <if test="menuId != null ">
+                menu_id = #{menuId},
+            </if>
+
+            update_time=now(3)
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE sys_role_menu
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.sys.RoleMenuEntity">
+        INSERT INTO sys_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="roleId != null ">
+                role_id,
+            </if>
+
+
+            <if test="menuId != null ">
+                menu_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null ">
+                #{roleId},
+            </if>
+
+            <if test="menuId != null ">
+                #{menuId},
+            </if>
+
+        </trim>
+    </insert>
+
+</mapper>

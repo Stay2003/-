@@ -3,7 +3,7 @@ package cn.net.susan.service.user;
 import cn.net.susan.entity.ResponsePageEntity;
 import cn.net.susan.entity.user.UserConditionEntity;
 import cn.net.susan.entity.user.UserEntity;
-import cn.net.susan.mapper.user.UserMapper;
+import cn.net.susan.mapper.user.UserDemoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +12,14 @@ import java.util.List;
 /**
  * 用户service
  *
+ * @author 思源，该项目是知识星球：java突击队 的内部项目
+ * @date 2024/1/4 下午4:16
  */
 @Service
-public class UserService {
+public class UserDemoService {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserDemoMapper userDemoMapper;
 
     /**
      * 通过id查询用户信息
@@ -26,7 +28,7 @@ public class UserService {
      * @return 用户信息
      */
     public UserEntity findById(Long id) {
-        return userMapper.findById(id);
+        return userDemoMapper.findById(id);
     }
 
     /**
@@ -36,11 +38,11 @@ public class UserService {
      * @return 用户列表
      */
     public ResponsePageEntity<UserEntity> searchByPage(UserConditionEntity userConditionEntity) {
-        int count = userMapper.searchCount(userConditionEntity);
+        int count = userDemoMapper.searchCount(userConditionEntity);
         if (count == 0) {
             return ResponsePageEntity.buildEmpty(userConditionEntity);
         }
-        List<UserEntity> userEntities = userMapper.searchByCondition(userConditionEntity);
+        List<UserEntity> userEntities = userDemoMapper.searchByCondition(userConditionEntity);
         return ResponsePageEntity.build(userConditionEntity, count, userEntities);
     }
 
@@ -52,7 +54,8 @@ public class UserService {
      * @return 影响行数
      */
     public int insert(UserEntity userEntity) {
-        return userMapper.insert(userEntity);
+        userEntity.setIsDel(0);
+        return userDemoMapper.insert(userEntity);
     }
 
     /**
@@ -62,7 +65,7 @@ public class UserService {
      * @return 影响行数
      */
     public int update(UserEntity userEntity) {
-        return userMapper.update(userEntity);
+        return userDemoMapper.update(userEntity);
     }
 
     /**
@@ -72,6 +75,6 @@ public class UserService {
      * @return 影响行数
      */
     public int deleteById(Long id) {
-        return userMapper.deleteById(id);
+        return userDemoMapper.deleteById(id);
     }
 }

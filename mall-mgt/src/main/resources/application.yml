@@ -1,6 +1,15 @@
 spring:
   application:
     name: mall-api
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    database: 5
+    host: 43.136.235.243
+    port: 16789
+    password:  java@re123
+    timeout: 5000
   datasource:
       url: jdbc:mysql://localhost:3306/susan_mall?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull
       username: root
@@ -8,3 +17,19 @@ spring:
 
 server:
   port: 8011
+
+logging:
+  level:
+    cn:
+      net:
+        susan:
+          mapper: debug
+
+
+
+
+
+
+
+
+

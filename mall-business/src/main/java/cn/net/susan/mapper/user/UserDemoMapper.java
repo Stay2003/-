@@ -8,8 +8,10 @@ import java.util.List;
 /**
  * 用户mapper
  *
+ * @author 思源，该项目是知识星球：java突击队 的内部项目
+ * @date 2024/1/4 下午3:48
  */
-public interface UserMapper {
+public interface UserDemoMapper {
 
     /**
      * 通过id查询用户信息

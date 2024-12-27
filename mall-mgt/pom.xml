@@ -11,7 +11,7 @@
 
     <artifactId>mall-mgt</artifactId>
     <name>mall-mgt</name>
-    <description>商城后台管理系统</description>
+    <description>思源商城后台管理系统</description>
 
     <properties>
         <jjwt.version>0.10.6</jjwt.version>
@@ -27,6 +27,11 @@
             <groupId>cn.net.susan</groupId>
             <artifactId>mall-business</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0.2</version>
         </dependency>
     </dependencies>
 </project>

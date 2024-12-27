@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.susan.mapper.sys.RoleDeptMapper">
+
+    <resultMap type="cn.net.susan.entity.sys.RoleDeptEntity" id="RoleDeptResult">
+        <result property="id" column="id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="deptId" column="dept_id"/>
+    </resultMap>
+
+
+    <sql id="paginationSql">
+        LIMIT #{pageBegin} , #{pageSize}
+    </sql>
+
+    <sql id="selectRoleDeptColumn">
+         id,
+         role_id,
+         dept_id
+    </sql>
+
+    <sql id="queryWhere">
+        <where>
+
+            <if test="id != null ">
+                AND id = #{id}
+            </if>
+
+            <if test="roleId != null ">
+                AND role_id = #{roleId}
+            </if>
+
+            <if test="deptId != null ">
+                AND dept_id = #{deptId}
+            </if>
+            AND is_del = 0
+        </where>
+    </sql>
+
+    <select id="findById" parameterType="Long"
+            resultMap="RoleDeptResult">
+        SELECT
+        <include refid="selectRoleDeptColumn"/>
+        FROM sys_role_dept
+        WHERE id = #{id}
+    </select>
+
+    <select id="searchByCondition"
+            parameterType="cn.net.susan.entity.sys.RoleDeptConditionEntity"
+            resultMap="RoleDeptResult">
+        SELECT
+        <include refid="selectRoleDeptColumn"/>
+        FROM sys_role_dept
+        <include refid="queryWhere"/>
+        <include refid="paginationSql"/>
+    </select>
+
+    <select id="searchCount"
+            parameterType="cn.net.susan.entity.sys.RoleDeptConditionEntity"
+            resultType="int">
+        SELECT
+        COUNT(*)
+        FROM sys_role_dept
+        <include refid="queryWhere"/>
+    </select>
+
+
+    <update id="update" parameterType="cn.net.susan.entity.sys.RoleDeptEntity">
+        UPDATE sys_role_dept
+        <trim prefix="SET" suffixOverrides=",">
+
+            <if test="roleId != null ">
+                role_id = #{roleId},
+            </if>
+
+
+            <if test="deptId != null ">
+                dept_id = #{deptId},
+            </if>
+
+            update_time=now(3)
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        UPDATE sys_role_dept
+        SET is_del = 1,update_time=now(3)
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="cn.net.susan.entity.sys.RoleDeptEntity">
+        INSERT INTO sys_role_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="roleId != null ">
+                role_id,
+            </if>
+
+
+            <if test="deptId != null ">
+                dept_id,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null ">
+                #{roleId},
+            </if>
+
+            <if test="deptId != null ">
+                #{deptId},
+            </if>
+
+        </trim>
+    </insert>
+
+</mapper>
